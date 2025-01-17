@@ -1,0 +1,12 @@
+[
+    {
+        "role": "user",
+        "type": "message",
+        "content": "What are the possible reasons for resource underutilization, and what corrective actions can be taken"
+    },
+    {
+        "role": "assistant",
+        "type": "message",
+        "content": "select  * from possible_reasons;"
+    }
+]

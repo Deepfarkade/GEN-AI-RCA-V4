@@ -1,0 +1,22 @@
+[
+    {
+        "role": "user",
+        "type": "message",
+        "content": "What is the fill rate for customer orders and forecast orders by month?"
+    },
+    {
+        "role": "assistant",
+        "type": "message",
+        "content": "SELECT CONVERT(varchar, MONTH, 32) AS Month, \n       ROUND(SUM(TOTAL_CUST_ORDER), 0) AS Total_Cust_Orders, \n       ROUND(SUM(TOT_CUSTORDER_ALLOCATION), 0) AS Total_Met_Cust_Order, \n       CASE WHEN SUM(TOTAL_CUST_ORDER) = 0 THEN '0%' ELSE CONCAT(ROUND((SUM(TOT_CUSTORDER_ALLOCATION) / SUM(TOTAL_CUST_ORDER)) * 100, 0), '%') END AS Cust_Order_Fill_Rate, \n       ROUND(SUM(TOT_FORCAST_ORDER), 0) AS Total_Fcst_Orders, \n       ROUND(SUM(TOT_FCSTORDER_ALLOCATION), 0) AS Total_Met_Fcst_Order, \n       CASE WHEN SUM(TOT_FORCAST_ORDER) = 0 THEN '0%' ELSE CONCAT(ROUND((SUM(TOT_FCSTORDER_ALLOCATION) / SUM(TOT_FORCAST_ORDER) * 100), 0), '%') END AS Fcst_Order_Fill_Rate \nFROM udt_order_fulfillment \nWHERE simulation_name = 'MONTHLY_MAX_DEMSAT' \nGROUP BY MONTH;"
+    },
+    {
+        "role": "user",
+        "type": "message",
+        "content": "What is the demand fulfillment by product group, market segment, customer segment, and priority for each month?"
+    },
+    {
+        "role": "assistant",
+        "type": "message",
+        "content": "SELECT CONVERT(varchar, MONTH, 32) AS Month, PRODUCT_GRP AS Product_Group, MARKET_SEGMENT, CUSTOMER_SEGMENT, PRIORITY, ROUND(SUM(TOTAL_ORDER), 0) AS Total_Orders, ROUND(SUM(TOTAL_ALLOCATION), 0) AS Total_Met_Orders, CONCAT(ROUND((SUM(TOTAL_ALLOCATION) / SUM(TOTAL_ORDER)) * 100, 0), '%') AS Fill_Rate FROM udt_order_fulfillment WHERE simulation_name = 'MONTHLY_MAX_DEMSAT' GROUP BY MONTH, PRODUCT_GRP, MARKET_SEGMENT, CUSTOMER_SEGMENT, PRIORITY;"
+    }
+]

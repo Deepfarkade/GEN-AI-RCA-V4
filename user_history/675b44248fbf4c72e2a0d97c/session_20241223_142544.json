@@ -1,0 +1,12 @@
+[
+    {
+        "role": "user",
+        "type": "message",
+        "content": "can you  tell me which machines are getting underutilised ?"
+    },
+    {
+        "role": "assistant",
+        "type": "message",
+        "content": "SELECT LOC, RES, Pct_Used FROM GEN_AI_NEW.dbo.Resource_utilization WHERE Pct_Used < 50 ORDER BY Pct_Used ASC;"
+    }
+]

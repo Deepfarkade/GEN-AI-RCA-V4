@@ -1,0 +1,22 @@
+[
+    {
+        "role": "user",
+        "type": "message",
+        "content": "Which plant can manufacture these product group?"
+    },
+    {
+        "role": "assistant",
+        "type": "message",
+        "content": "select DISTINCT loc AS Location, udc_product_group As Product_Group from plant_percentage"
+    },
+    {
+        "role": "user",
+        "type": "message",
+        "content": "Can you provide the exact bottleneck resources and its utilization for producing these products?"
+    },
+    {
+        "role": "assistant",
+        "type": "message",
+        "content": "select DISTINCT udc_product_group As Product_Group, loc As Location,res As Resource, CONCAT(ROUND( percentage_utilized,0),'%') As Utilised_Percentage from plant_percentage where percentage_utilized >99"
+    }
+]

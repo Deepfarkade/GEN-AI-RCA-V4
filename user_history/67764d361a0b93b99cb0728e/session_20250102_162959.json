@@ -1,0 +1,12 @@
+[
+    {
+        "role": "user",
+        "type": "message",
+        "content": "help me to provide my unique orders"
+    },
+    {
+        "role": "assistant",
+        "type": "message",
+        "content": "SELECT DISTINCT SALES_ORDER_NUMBER FROM [GEN_AI_NEW].[dbo].[sales_order_status];"
+    }
+]

@@ -1,0 +1,245 @@
+import React, { useState, useEffect } from 'react';
+import { Message } from '../features/chat/types';  
+import { ChatService } from '../features/chat/services/chatService';
+
+interface AsddfProps {
+  open: boolean;
+  onClose: () => void;
+  sessionId: string;                  // The real session ID from Mongo
+  parentMessageId?: string;           // Optional if you want to reference a DF-holding message
+  tableData: {
+    columns: string[];
+    records: Array<Record<string, any>>;
+  };
+  summary?: string;
+  existingDFMessages?: Message[];
+}
+
+export default function Asddf({
+  open,
+  onClose,
+  sessionId,
+  parentMessageId,
+  tableData,
+  summary,
+  existingDFMessages = [],
+}: AsddfProps) {
+  const [dfQuestions, setDfQuestions] = useState<Message[]>([]);
+  const [inputQuery, setInputQuery] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Load existing DF messages if provided, whenever the modal opens
+  useEffect(() => {
+    if (open) {
+      setDfQuestions(existingDFMessages);
+    }
+  }, [open, existingDFMessages]);
+
+    const handleAskOnDF = async () => {
+        if (!inputQuery.trim()) return;
+        setIsLoading(true);
+    
+        const userMsg: Message = {
+        id: Date.now().toString(),
+        sender: 'user',
+        role: 'user',
+        text: inputQuery,
+        timestamp: new Date(),
+        sessionId
+        };
+        setDfQuestions((prev) => [...prev, userMsg]);
+    
+        try {
+        const response: Message = await ChatService.askOnDF(sessionId, parentMessageId || '', inputQuery);
+        setDfQuestions((prev) => [...prev, response]);
+        } catch (error) {
+        console.error('Failed to ask on DF:', error);
+        setDfQuestions((prev) => [
+            ...prev,
+            {
+            id: Date.now().toString(),
+            sender: 'bot',
+            role: 'assistant',
+            text: 'An error occurred while asking on DF. Please try again.',
+            timestamp: new Date(),
+            sessionId
+            }
+        ]);
+        } finally {
+        setIsLoading(false);
+        setInputQuery('');
+        }
+    };
+  
+
+  // If not open, do not render anything
+  if (!open) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="relative w-[90%] max-w-5xl bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+        >
+          X
+        </button>
+
+        {/* TABLE DISPLAY */}
+        {/* <div className="overflow-x-auto max-h-96 mb-4">
+          <table className="table-auto border-collapse border border-gray-300 w-full text-sm">
+            <thead className="bg-yellow-500 text-black">
+              <tr>
+                {tableData.columns.map((col, idx) => (
+                  <th key={idx} className="border border-gray-300 px-4 py-2">
+                    {col}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="bg-gray-700 text-gray-200">
+              {tableData.records.map((record, rowIndex) => (
+                <tr key={rowIndex} className="hover:bg-gray-600">
+                  {tableData.columns.map((col, colIndex) => {
+                    const cellValue = record[col];
+                    const isNumeric = typeof cellValue === 'number';
+                    return (
+                      <td
+                        key={colIndex}
+                        className={`
+                          border border-gray-500 px-4 py-2
+                          ${isNumeric ? 'text-right' : 'text-left'}
+                        `}
+                      >
+                        {cellValue}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div> */}
+
+
+
+        <div className="overflow-x-auto max-h-[70vh] mb-4">
+          <table className="table-auto border-collapse border border-gray-300 w-full text-xs"> {/* Smaller font size only for the table */}
+            <thead className="bg-yellow-500 text-black">
+              <tr>
+                {tableData.columns.map((col, idx) => (
+                  <th key={idx} className="border border-gray-300 px-4 py-2">
+                    {col}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="bg-gray-700 text-gray-200">
+              {tableData.records.map((record, rowIndex) => (
+                <tr key={rowIndex} className="hover:bg-gray-600">
+                  {tableData.columns.map((col, colIndex) => {
+                    const cellValue = record[col];
+                    const isNumeric = typeof cellValue === 'number';
+                    return (
+                      <td
+                        key={colIndex}
+                        className={`border border-gray-500 px-4 py-2 ${isNumeric ? 'text-right' : 'text-left'}`}
+                      >
+                        {cellValue}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+
+
+
+
+
+
+        {/* Optional Summary */}
+        {summary && (
+          <div className="mb-4 whitespace-pre-wrap text-gray-800 dark:text-gray-200">
+            {summary}
+          </div>
+        )}
+
+        {/* DF Q&A HISTORY */}
+        {/* <div className="mb-4 border p-2 rounded max-h-40 overflow-y-auto bg-gray-50 dark:bg-gray-700">
+          {dfQuestions.length === 0 ? (
+            <p className="text-gray-400">
+              No conversation yet. Ask your first question about this DF!
+            </p>
+          ) : (
+            dfQuestions.map((msg) => (
+              <div
+                key={msg.id}
+                className={`
+                  p-2 mb-2 rounded max-w-full
+                  ${
+                    msg.sender === 'user'
+                      ? 'bg-blue-500 text-white ml-auto mr-0'
+                      : 'bg-gray-200 text-black mr-auto ml-0'
+                  }
+                `}
+              >
+                {msg.text}
+              </div>
+            ))
+          )}
+        </div> */}
+
+
+        <div className="mb-4 border p-2 rounded max-h-40 overflow-y-auto bg-gray-50 dark:bg-gray-700">
+          {dfQuestions.length === 0 ? (
+            <p className="text-gray-400 text-sm">
+              No conversation yet. Ask your first question about this DF!
+            </p>
+          ) : (
+            dfQuestions.map((msg) => (
+              <div
+                key={msg.id}
+                className={`p-2 mb-2 rounded max-w-full ${
+                  msg.sender === 'user'
+                    ? 'bg-blue-500 text-white ml-auto'
+                    : 'bg-gray-200 text-black mr-auto'
+                }`}
+              >
+                <p className="text-sm">{msg.text}</p>
+              </div>
+            ))
+          )}
+        </div>
+
+
+
+
+
+
+        {/* INPUT */}
+        <div className="flex items-center space-x-2">
+          <input
+            type="text"
+            className="flex-1 px-3 py-2 border rounded"
+            placeholder="Ask something about this DF..."
+            value={inputQuery}
+            onChange={(e) => setInputQuery(e.target.value)}
+          />
+          <button
+            onClick={handleAskOnDF}
+            disabled={isLoading}
+            className="bg-yellow-500 text-black px-4 py-2 rounded hover:bg-yellow-600"
+          >
+            {isLoading ? 'Asking...' : 'Send'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}

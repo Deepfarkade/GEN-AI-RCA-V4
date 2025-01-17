@@ -1,0 +1,12 @@
+[
+    {
+        "role": "user",
+        "type": "message",
+        "content": "which machines are getting underutilised?"
+    },
+    {
+        "role": "assistant",
+        "type": "message",
+        "content": "SELECT RES AS Machine, LOC AS Location, ROUND(AVG(Pct_Used), 2) AS Avg_Utilization_Percentage FROM Resource_utilization WHERE Pct_Used < 50 GROUP BY RES, LOC ORDER BY Avg_Utilization_Percentage ASC;"
+    }
+]

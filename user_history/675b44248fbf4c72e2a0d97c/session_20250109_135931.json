@@ -1,0 +1,12 @@
+[
+    {
+        "role": "user",
+        "type": "message",
+        "content": "How can I improve th e fill rate for these products?"
+    },
+    {
+        "role": "assistant",
+        "type": "message",
+        "content": "SELECT DISTINCT ITEM as Item, RES as Resource , ROUND(prodrate,2) AS Production_Rate ,ROUND(max_prodrate,2) as Max_Production_Rate,ROUND((max_prodrate-prodrate),2) as Increase_In_TPH, ROUND(yield,2) AS Yield, ROUND(max_yield,2) as Max_Yield, ROUND((max_yield-yield),2) as Increase_In_Yield from ABP_DATA;"
+    }
+]

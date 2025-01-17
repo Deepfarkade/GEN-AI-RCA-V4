@@ -1,0 +1,12 @@
+[
+    {
+        "role": "user",
+        "type": "message",
+        "content": "Can you provide the most underutilized resources at the Kalmeshwar plant?"
+    },
+    {
+        "role": "assistant",
+        "type": "message",
+        "content": "select LOC AS Plant, res as Resource,CONCAT(ROUND(pct_used,2),'%') as Percentage_Utilised from resource_utilization where res not like '%DUMMY%' AND Total_produced_qty <> ' ' and pct_used <55  AND LOC ='1018';"
+    }
+]

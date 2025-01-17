@@ -1,0 +1,12 @@
+[
+    {
+        "role": "user",
+        "type": "message",
+        "content": "What are oiur In-Hand Stock Quantity by Sales  Office"
+    },
+    {
+        "role": "assistant",
+        "type": "message",
+        "content": "SELECT Sales_Office, SUM(SQ) AS In_Hand_Stock_Quantity\nFROM GEN_AI_NEW.dbo.Inv_Stock_Clear\nGROUP BY Sales_Office;"
+    }
+]

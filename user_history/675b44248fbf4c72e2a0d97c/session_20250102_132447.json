@@ -1,0 +1,22 @@
+[
+    {
+        "role": "user",
+        "type": "message",
+        "content": "How can I improve the fill rate for these products?"
+    },
+    {
+        "role": "assistant",
+        "type": "message",
+        "content": "SELECT DISTINCT ITEM as Item, RES as Resource , ROUND(prodrate,2) AS Production_Rate ,ROUND(max_prodrate,2) as Max_Production_Rate,ROUND((max_prodrate-prodrate),2) as Increase_In_TPH, ROUND(yield,2) AS Yield, ROUND(max_yield,2) as Max_Yield, ROUND((max_yield-yield),2) as Increase_In_Yield from ABP_DATA;"
+    },
+    {
+        "role": "user",
+        "type": "message",
+        "content": "What is the resource utilization for all plants for the upcoming month?"
+    },
+    {
+        "role": "assistant",
+        "type": "message",
+        "content": "select LOC AS Plant, res as Resource , ROUND(pct_used,2) as [Resource_Utilisation %] from resource_utilization where res not like '%DUMMY%' AND Total_produced_qty <> ' ' ;"
+    }
+]

@@ -1,0 +1,12 @@
+[
+    {
+        "role": "user",
+        "type": "message",
+        "content": "which   machiness are getting underutilised?"
+    },
+    {
+        "role": "assistant",
+        "type": "message",
+        "content": "SELECT RES, LOC, Month, Total_produced_qty, UDC_MONTH_CAPACITY_HRS, Pct_Used FROM Resource_utilization WHERE Pct_Used < 50 ORDER BY Pct_Used ASC;"
+    }
+]

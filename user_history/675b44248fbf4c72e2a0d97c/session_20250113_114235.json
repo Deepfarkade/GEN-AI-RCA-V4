@@ -1,0 +1,42 @@
+[
+    {
+        "role": "user",
+        "type": "message",
+        "content": "Can you provide the most underutilized resources at the Kalmeshwar plant ?"
+    },
+    {
+        "role": "assistant",
+        "type": "message",
+        "content": "🌟 No Data Found 🌟\n Maybe it’s a fresh start for this combination! 🕊️ .\n If you think something’s amiss, try refining your query or let us know. 😊"
+    },
+    {
+        "role": "user",
+        "type": "message",
+        "content": "What are the possible reasons for resource underutilization, and what corrective actions can be taken?"
+    },
+    {
+        "role": "assistant",
+        "type": "message",
+        "content": "select  * from possible_reasons;"
+    },
+    {
+        "role": "user",
+        "type": "message",
+        "content": "Which items can be produced on the KCCL2 resource, along with their total demand, met demand, and unmet demand?"
+    },
+    {
+        "role": "assistant",
+        "type": "message",
+        "content": "🌟 No Data Found 🌟\n Maybe it’s a fresh start for this combination! 🕊️ .\n If you think something’s amiss, try refining your query or let us know. 😊"
+    },
+    {
+        "role": "user",
+        "type": "message",
+        "content": "What are all the upstream resources and their utilization to produce 'PPGL_CL_HARD_PLAIN_0.35-0.45_1101-1235'?"
+    },
+    {
+        "role": "assistant",
+        "type": "message",
+        "content": "select a.res as Resource , a.product_group AS Product_Group, ROUND(b.pct_used,2) as [Resource Utilised %] from (Select distinct res,product_group from upstream_resources) a, (select pct_used, res from resource_utilization)b where a.res = b.res;"
+    }
+]

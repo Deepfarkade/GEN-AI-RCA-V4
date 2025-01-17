@@ -1,0 +1,22 @@
+[
+    {
+        "role": "user",
+        "type": "message",
+        "content": "underutilised resources ?"
+    },
+    {
+        "role": "assistant",
+        "type": "message",
+        "content": "select LOC AS Plant, RES as Resource, ROUND(Pct_Used, 2) as Percentage_Utilized from Resource_utilization where Pct_Used < 50;"
+    },
+    {
+        "role": "user",
+        "type": "message",
+        "content": "What is the fill rate for customer orders and forecast orders by month?"
+    },
+    {
+        "role": "assistant",
+        "type": "message",
+        "content": "SELECT CONVERT(varchar, MONTH, 32) AS Month, ROUND(SUM(TOTAL_CUST_ORDER), 0) AS Total_Cust_Orders, ROUND(SUM(TOT_CUSTORDER_ALLOCATION), 0) AS Total_Met_Cust_Order, CASE WHEN SUM(TOTAL_CUST_ORDER) = 0 THEN '0%' ELSE CONCAT(ROUND((SUM(TOT_CUSTORDER_ALLOCATION) / SUM(TOTAL_CUST_ORDER)) * 100, 0), '%') END AS Cust_Order_Fill_Rate, ROUND(SUM(TOT_FORCAST_ORDER), 0) AS Total_Fcst_Orders, ROUND(SUM(TOT_FCSTORDER_ALLOCATION), 0) AS Total_Met_Fcst_Order, CASE WHEN SUM(TOT_FORCAST_ORDER) = 0 THEN '0%' ELSE CONCAT(ROUND((SUM(TOT_FCSTORDER_ALLOCATION) / SUM(TOT_FORCAST_ORDER) * 100), 0), '%') END AS Fcst_Order_Fill_Rate FROM udt_order_fulfillment WHERE simulation_name = 'MONTHLY_MAX_DEMSAT' GROUP BY MONTH;"
+    }
+]

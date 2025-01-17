@@ -1,0 +1,22 @@
+[
+    {
+        "role": "user",
+        "type": "message",
+        "content": "Which product group has the lowest fill rate in the upcoming month?"
+    },
+    {
+        "role": "assistant",
+        "type": "message",
+        "content": "SELECT PRODUCT_GRP AS Product_Group, ROUND(SUM(TOTAL_ORDER), 0) AS Total_Orders, ROUND(SUM(TOTAL_ALLOCATION), 0) AS Total_Met_Orders, CONCAT(ROUND((SUM(TOTAL_ALLOCATION) / SUM(TOTAL_ORDER)) * 100, 0), '%') AS Fill_Rate FROM udt_order_fulfillment WHERE simulation_name = 'MONTHLY_MAX_DEMSAT' AND MONTH = '01-08-24' GROUP BY PRODUCT_GRP ORDER BY SUM(TOTAL_ALLOCATION) / SUM(TOTAL_ORDER) ASC;"
+    },
+    {
+        "role": "user",
+        "type": "message",
+        "content": "Which plant can manufacture these product group?"
+    },
+    {
+        "role": "assistant",
+        "type": "message",
+        "content": "select DISTINCT loc AS Location, udc_product_group As Product_Group from plant_percentage"
+    }
+]

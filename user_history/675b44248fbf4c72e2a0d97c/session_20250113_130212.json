@@ -1,0 +1,12 @@
+[
+    {
+        "role": "user",
+        "type": "message",
+        "content": "What is the upstream item of 'PPGL_CL_HARD_PLAIN_0.35-0.45_1101-1235' produced on KMIL, and how much extra quantity is required to meet the unmet demand?"
+    },
+    {
+        "role": "assistant",
+        "type": "message",
+        "content": "select Distinct item as Item, ROUND(EXTRA_QTY,0) as Extra_Qty from upstream_resources WHERE res like 'KMIL%';"
+    }
+]

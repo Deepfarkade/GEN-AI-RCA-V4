@@ -1,0 +1,12 @@
+[
+    {
+        "role": "user",
+        "type": "message",
+        "content": "can i get my unique productS"
+    },
+    {
+        "role": "assistant",
+        "type": "message",
+        "content": "SELECT DISTINCT product FROM GEN_AI_NEW.dbo.Sales_Data;"
+    }
+]

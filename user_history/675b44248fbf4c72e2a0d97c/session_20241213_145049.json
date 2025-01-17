@@ -1,0 +1,12 @@
+[
+    {
+        "role": "user",
+        "type": "message",
+        "content": "Can you tell me utilization percentage of KCCL 2?"
+    },
+    {
+        "role": "assistant",
+        "type": "message",
+        "content": "select res as Resource, LOC as Location, CONCAT(ROUND(pct_used,2),'%') as [Utilization Percentage] from resource_utilization where res='KCCL2';"
+    }
+]
